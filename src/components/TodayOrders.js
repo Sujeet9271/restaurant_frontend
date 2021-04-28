@@ -5,10 +5,8 @@ import Orders from "../cards/orders";
 
 const TodayOrders = () => {
   useEffect(() => {
-      setInterval(() => {
-          getOrders()
-      }, 10000);
-    // getOrders();
+      
+    getOrders();
   }, []);
 
   const [orders, setOrders] = useState([]);
@@ -18,6 +16,7 @@ const TodayOrders = () => {
   const [loading, setLoading] = useState(false);
 
   const getOrders = async () => {
+      
     try {
       const res = await axiosInstance.get("/orders/today/");
       setOrders(res.data.orders);

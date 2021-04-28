@@ -35,7 +35,7 @@ function App() {
 
           <Route exact path='/Signup' component={Signup} />
 
-          <Route exact path='/Home' component={TodayOrders} />
+          <Route exact path='/Home' component={Home} />
 
           <Route exact path='/menu' component={Menu} />
 
@@ -53,7 +53,7 @@ function App() {
 
           <Route exact path='/menu/products' component={AllProducts} />
 
-          <Redirect path='/Home' component={TodayOrders} />
+          <Redirect path='/Home' component={Home} />
 
 
         </Switch>
