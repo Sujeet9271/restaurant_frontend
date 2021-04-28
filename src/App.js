@@ -12,6 +12,8 @@ import Products from './components/Products';
 import AllProducts from './components/AllProducts'
 import AllSubcategory from './components/AllSubcategory';
 import Menu from './components/Menu';
+import TodayOrders from './components/TodayOrders';
+import AllOrders from './components/AllOrders'
 
 
 
@@ -33,9 +35,13 @@ function App() {
 
           <Route exact path='/Signup' component={Signup} />
 
-          <Route exact path='/Home' component={Home} />
+          <Route exact path='/Home' component={TodayOrders} />
 
           <Route exact path='/menu' component={Menu} />
+
+          <Route exact path='/orders/today' component={TodayOrders} />
+
+          <Route exact path='/orders/all' component={AllOrders} />
 
           <Route exact path='/menu/category' component={Category} />
 
@@ -47,7 +53,7 @@ function App() {
 
           <Route exact path='/menu/products' component={AllProducts} />
 
-          <Redirect path='/Home' component={Home} />
+          <Redirect path='/Home' component={TodayOrders} />
 
 
         </Switch>

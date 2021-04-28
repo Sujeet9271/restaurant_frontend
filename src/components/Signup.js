@@ -47,7 +47,7 @@ const Signup = () => {
         console.log(formData);
 
 
-        axiosInstance.post(`accounts/register/`,{
+        axiosInstance.post(`register/`,{
             username: formData.username,
             firstname: formData.firstname,
             lastname: formData.lastname,

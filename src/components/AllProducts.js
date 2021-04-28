@@ -9,26 +9,24 @@ const ALLproducts = () => {
     getProduct();
   }, []);
 
-  const initialData=Object.freeze({
-    itemname:'',
-    category:1,
-    sub_category:1,
-    price:1,
-    description:'',
-    restaurant:1
-})
+  const initialData = Object.freeze({
+    itemname: "",
+    category: 1,
+    sub_category: 1,
+    price: 1,
+    description: "",
+    image: null,
+    available: "true",
+  });
 
   const [Products, setProducts] = useState([]);
   const [Category, setCategory] = useState([]);
   const [SubCategory, setSubCategory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [chainSub, setChain] = useState([]);
-  const [formData, updateFormData] =  useState(initialData);
-
+  const [formData, updateFormData] = useState(initialData);
 
   const [show, setShow] = useState(false);
-
-  
 
   const getProduct = async () => {
     try {
@@ -44,10 +42,10 @@ const ALLproducts = () => {
   };
 
   const chainSubCategory = (e) => {
-    const id = parseInt(e.target.value.trim())
+    const id = parseInt(e.target.value.trim());
     updateFormData({
-        ...formData,
-        [e.target.name]: id,
+      ...formData,
+      [e.target.name]: id,
     });
     const newarr = [];
     SubCategory.map((sub) => {
@@ -62,27 +60,34 @@ const ALLproducts = () => {
   };
 
   const handleChange = (e) => {
-      console.log(e.target.name, e.target.value)
+    console.log(e.target.name, e.target.value);
     updateFormData({
-        ...formData,
-        [e.target.name]: e.target.value.trim(),
+      ...formData,
+      [e.target.name]: e.target.value.trim(),
     });
-};
+  };
 
-const handlesub = (e) => {
-  
-    const id = parseInt(e.target.value.trim())
-  updateFormData({
+  const handlesub = (e) => {
+    const id = parseInt(e.target.value.trim());
+    updateFormData({
       ...formData,
       [e.target.name]: id,
-  });
-};
+    });
+  };
 
-const handleSubmit= async () => {
+  const handleSubmit = async () => {
+    setShow(!show)
     try {
-      const res = await axiosInstance.post("/menu/allitems/",formData);
-      getProduct()
-      
+      const res = await axiosInstance.post("/menu/allitems/", {
+        itemname: formData.itemname,
+        category: formData.category,
+        sub_category: formData.sub_category,
+        price: formData.price,
+        description: formData.description,
+        image: formData.image,
+        available: 'true',
+      });
+      getProduct();
     } catch (err) {
       alert(err.message);
     }
@@ -92,8 +97,8 @@ const handleSubmit= async () => {
     <>
       <Container>
         <Button
-        className="mt-5"
-        style={{marginLeft:'25vw'}}
+          className="mt-5"
+          style={{ marginLeft: "25vw" }}
           variant="primary"
           onClick={() => {
             setShow(!show);
@@ -116,13 +121,23 @@ const handleSubmit= async () => {
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridText">
                   <Form.Label>Item Name</Form.Label>
-                  <Form.Control type="text" name="itemname" placeholder="Item Name" onChange={handleChange} />
+                  <Form.Control
+                    type="text"
+                    name="itemname"
+                    placeholder="Item Name"
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </Form.Row>
 
               <Form.Group controlId="Category">
                 <Form.Label>Category</Form.Label>
-                <Form.Control as="select" custom name="category" onChange={chainSubCategory}>
+                <Form.Control
+                  as="select"
+                  custom
+                  name="category"
+                  onChange={chainSubCategory}
+                >
                   <option value="0">Choose Category</option>
                   {loading &&
                     Category.map((category) => (
@@ -133,7 +148,12 @@ const handleSubmit= async () => {
 
               <Form.Group controlId="SubCategory">
                 <Form.Label>Sub Category</Form.Label>
-                <Form.Control as="select" custom name="sub_category" onChange={handlesub}>
+                <Form.Control
+                  as="select"
+                  custom
+                  name="sub_category"
+                  onChange={handlesub}
+                >
                   <option value="0"> Sub Category</option>
                   {loading &&
                     chainSub.map((subcategory) => (
@@ -146,12 +166,22 @@ const handleSubmit= async () => {
 
               <Form.Group controlId="Price">
                 <Form.Label>Price</Form.Label>
-                <Form.Control placeholder="Price" name="price" type="number" min="1" onChange={handleChange} />
+                <Form.Control
+                  placeholder="Price"
+                  name="price"
+                  type="number"
+                  min="1"
+                  onChange={handleChange}
+                />
               </Form.Group>
 
               <Form.Group controlId="Description">
                 <Form.Label>Description</Form.Label>
-                <Form.Control placeholder="Description" name="description" onChange={handleChange} />
+                <Form.Control
+                  placeholder="Description"
+                  name="description"
+                  onChange={handleChange}
+                />
               </Form.Group>
 
               {/* <Form.Group id="formGridCheckbox">
@@ -161,12 +191,16 @@ const handleSubmit= async () => {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="primary" onClick={handleSubmit}>Add</Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              Add
+            </Button>
           </Modal.Footer>
         </Modal>
 
         {loading &&
-          Products.map((product) => <Cards product={product}></Cards>)}
+          Products.map((product) => (
+            <Cards product={product} getProduct={getProduct}></Cards>
+          ))}
       </Container>
     </>
   );
