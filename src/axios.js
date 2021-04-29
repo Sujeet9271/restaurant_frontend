@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseURL2 = 'http://127.0.0.1:8000';
+export const baseURL2 = 'http://fooddeliveryapi1.herokuapp.com';
 
 export const baseURL = baseURL2+'/cities/1/restaurant/1/staff';
 
