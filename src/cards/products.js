@@ -8,21 +8,15 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-import axiosInstance, { baseURL2 } from "../axios";
+import axiosInstance, { baseURL, baseURL2 } from "../axios";
 
 const Cards = ({ product, getProduct }) => {
   const [show, setShow] = useState(false);
+  let data = new FormData();
 
-  const initialData = Object.freeze({
-    itemname: product.itemname,
-    price: product.price,
-    description: product.description,
-    image: product.image,
-  });
-  const [formData, updateFormData] = useState(initialData);
-
-  const product_edit = () => {
+  const product_edit = (e) => {
     setShow(!show);
+    e.preventDefault();
     axiosInstance
       .patch(
         "/menu/category/" +
@@ -32,14 +26,15 @@ const Cards = ({ product, getProduct }) => {
           "/item/" +
           product.id +
           "/",
-        formData
+        data
       )
       .then((res) => {
         console.log(res.data);
         getProduct();
       });
   };
-  const product_del = () => {
+  const product_del = (e) => {
+    e.preventDefault();
     axiosInstance
       .delete(
         "/menu/category/" +
@@ -55,24 +50,6 @@ const Cards = ({ product, getProduct }) => {
       });
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    updateFormData({
-      ...formData,
-      [e.target.name]: e.target.value.trim(),
-    });
-  };
-
-  const handleImage=(e)=>{
-    e.preventDefault();
-    console.log(e.target.files)
-    updateFormData({
-      ...formData,
-      [e.target.name]: e.target.files,
-    });
-console.log(formData)
-  }
-
   return (
     <Container>
       <Modal
@@ -86,7 +63,7 @@ console.log(formData)
         </Modal.Header>
 
         <Modal.Body>
-          <Form >
+          <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridText">
                 <Form.Label>Item Name</Form.Label>
@@ -94,7 +71,7 @@ console.log(formData)
                   type="text"
                   name="itemname"
                   placeholder={product.itemname}
-                  onChange={handleChange}
+                  onChange={(e)=>{data.append(e.target.name,e.target.value)}}
                 />
               </Form.Group>
             </Form.Row>
@@ -107,7 +84,7 @@ console.log(formData)
                 type="number"
                 placeholder={product.price}
                 min="1"
-                onChange={handleChange}
+                onChange={(e)=>{data.append(e.target.name,e.target.value)}}
               />
             </Form.Group>
 
@@ -117,18 +94,17 @@ console.log(formData)
                 placeholder="Description"
                 name="description"
                 placeholder={product.description}
-                onChange={handleChange}
+                onChange={(e)=>{data.append(e.target.name,e.target.value)}}
               />
             </Form.Group>
-
-              {/* <Form.Group>
+            <Form.Group>
                 <Form.File
                   name="image"
                   id="exampleFormControlFile1"
                   label="Upload Image"
-                  onChange={handleImage}
+                  onChange={(e)=>{data.append(e.target.name,e.target.files[0])}}
                 />
-              </Form.Group> */}
+              </Form.Group>
           </Form>
         </Modal.Body>
 

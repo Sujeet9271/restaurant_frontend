@@ -65,7 +65,7 @@ const TodayOrders = () => {
               {loading &&
                 orders.map((item) => (
                   <>
-                    <Orders item={item} orders={getOrders} />
+                    <Orders item={item} orders={getOrders} key={item.id} />
                   </>
                 ))}
             </tbody>

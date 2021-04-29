@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const baseURL2 = 'http://127.0.0.1:8000';
 
-export const baseURL = 'http://127.0.0.1:8000/cities/1/restaurant/1/staff';
+export const baseURL = baseURL2+'/cities/1/restaurant/1/staff';
 
 const axiosInstance = axios.create({
     baseURL: baseURL,

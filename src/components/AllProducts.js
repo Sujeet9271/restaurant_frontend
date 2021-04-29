@@ -1,4 +1,3 @@
-import { SettingsPhoneTwoTone } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { Container, Form, Col, Button, Modal } from "react-bootstrap";
 import axiosInstance from "../axios";
@@ -16,7 +15,7 @@ const ALLproducts = () => {
     price: 1,
     description: "",
     image: null,
-    available: "true",
+    available: true,
   });
 
   const [Products, setProducts] = useState([]);
@@ -31,7 +30,6 @@ const ALLproducts = () => {
   const getProduct = async () => {
     try {
       const res = await axiosInstance.get("/menu/allitems/");
-      console.log(res.data);
       setProducts(res.data.items);
       setCategory(res.data.category);
       setSubCategory(res.data.subcategory);
@@ -75,18 +73,25 @@ const ALLproducts = () => {
     });
   };
 
+  const handleImage =(e)=>{
+    updateFormData({
+      ...formData,
+      [e.target.name]: e.target.files[0],
+    });
+  }
+
   const handleSubmit = async () => {
     setShow(!show)
+    let data = new FormData()
+    data.append('itemname',formData.itemname)
+    data.append('price',formData.price)
+    data.append('category',formData.category)
+    data.append('sub_category',formData.sub_category)
+    data.append('description',formData.description)
+    data.append('image',formData.image)
+    data.append('available',formData.available)
     try {
-      const res = await axiosInstance.post("/menu/allitems/", {
-        itemname: formData.itemname,
-        category: formData.category,
-        sub_category: formData.sub_category,
-        price: formData.price,
-        description: formData.description,
-        image: formData.image,
-        available: 'true',
-      });
+      const res = await axiosInstance.post("/menu/allitems/", data);
       getProduct();
     } catch (err) {
       alert(err.message);
@@ -184,9 +189,9 @@ const ALLproducts = () => {
                 />
               </Form.Group>
 
-              {/* <Form.Group id="formGridCheckbox">
-                <Form.Check type="checkbox" label="Available" />
-              </Form.Group> */}
+              <Form.Group id="formGridCheckbox">
+                <Form.File type="file" name='image' label="Iamge" onChange={handleImage} />
+              </Form.Group>
             </Form>
           </Modal.Body>
 

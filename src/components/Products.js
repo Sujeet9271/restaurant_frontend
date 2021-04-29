@@ -50,9 +50,24 @@ const Products = () => {
     });
   };
 
+  const handleImage = (e) => {
+    updateFormData({
+      ...formData,
+      [e.target.name]: e.target.files[0],
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    let data = new FormData();
+    data.append("itemname", formData.itemname);
+    data.append("price", formData.price);
+    data.append("description", formData.description);
+    data.append("image", formData.image);
+    data.append("available", formData.available);
     setShow(!show);
+    // console.log(data)
     axiosInstance
       .post(
         "/menu/category/" +
@@ -60,13 +75,7 @@ const Products = () => {
           "/subcategory/" +
           id.subcategory +
           "/items/",
-        {
-          itemname: formData.itemname,
-          price: formData.price,
-          description: formData.description,
-          image: formData.image,
-          available: "true",
-        }
+        data
       )
       .then((res) => {
         updateFormData(initialData);
@@ -76,32 +85,27 @@ const Products = () => {
 
   return (
     <Container>
-    <div style={{display:"flex", justifyContent:'space-evenly'}}>
+      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <Button
+          variant="primary"
+          className="mt-5"
+          onClick={() => {
+            history.push("/menu/products/");
+          }}
+        >
+          Show All Products
+        </Button>
 
-    
-    <Button
-        variant="primary"
-        className="mt-5"
-        onClick={() => {
-          history.push("/menu/products/");
-        }}
-      >
-        Show All Products
-      </Button>
-
-      
-    <Button
-        className="mt-5"
-        variant="primary"
-        onClick={() => {
-          setShow(!show);
-        }}
-      >
-        Add Product
-      </Button>
-
-    </div>
-      
+        <Button
+          className="mt-5"
+          variant="primary"
+          onClick={() => {
+            setShow(!show);
+          }}
+        >
+          Add Product
+        </Button>
+      </div>
 
       <Modal
         show={show}
@@ -147,9 +151,14 @@ const Products = () => {
               />
             </Form.Group>
 
-            {/* <Form.Group id="formGridCheckbox">
-                <Form.Check type="checkbox" label="Available" />
-              </Form.Group> */}
+            <Form.Group id="formGridCheckbox">
+              <Form.File
+                type="file"
+                name="image"
+                label="Iamge"
+                onChange={handleImage}
+              />
+            </Form.Group>
           </Form>
         </Modal.Body>
 
