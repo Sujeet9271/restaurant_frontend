@@ -10,8 +10,8 @@
 	align-items: center;
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
-	height: 97.75vh;
-	overflow-y: hidden;
+	height: 100vh;
+	overflow-y: scroll;
 }
 
 /*

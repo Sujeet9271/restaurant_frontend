@@ -71,11 +71,15 @@ axiosInstance.interceptors.response.use(
                             console.log(err);
                         });
                 } else {
-                    console.log('Refresh token is expired', tokenParts.exp, now);
+                    alert('Session expired. Login Again');
+                    // console.log('Refresh token is expired', tokenParts.exp, now);
+
                     window.location.href = '/Signin';
                 }
             } else {
-                console.log('Refresh token not available');
+                // console.log('Refresh token not available');
+                alert('Session expired. Login Again');
+
                 window.location.href = '/Signin';
             }
         }

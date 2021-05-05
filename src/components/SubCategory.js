@@ -30,6 +30,7 @@ const Category = () => {
     e.preventDefault()
     setNew(e.target.value)
 
+
 }
 
   const handleSubmit=(e)=>{
@@ -52,7 +53,7 @@ const Category = () => {
                 <Form.Group as={Row} controlId="formPlaintext">
                   <Form.Control
                     type="text"
-                    name="category"
+                    name="sub_category"
                     placeholder="Enter Sub Category to Add"
                     onChange={handleChange}
                     style={{width:'50vw'}}

@@ -16,6 +16,7 @@ const Logout = () => {
     localStorage.removeItem('refresh_token');
     axiosInstance.defaults.headers['Authorization'] = null;
     history.push('/Home');
+    window.location.reload()
 
 
     });

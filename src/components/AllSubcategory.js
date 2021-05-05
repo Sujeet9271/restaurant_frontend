@@ -25,12 +25,12 @@ const AllSubcategory = () => {
       setCategory(res.data.category);
       setLoading(true);
     } catch (err) {
-      alert(err.message);
+      alert(err.response.data);
     }
   };
   const handleSelect=(e)=>{
-      console.log(e.target.value)
       setNewCategory(e.target.value)
+      
     }
 
 
